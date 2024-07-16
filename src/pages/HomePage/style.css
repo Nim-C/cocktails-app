@@ -4,3 +4,11 @@
   align-items: flex-start;
   color: var(--color-text);
 }
+
+#serach-input {
+  font-size: 2rem;
+}
+
+label[for="serach-input"] {
+  font-size: 1.8rem;
+}

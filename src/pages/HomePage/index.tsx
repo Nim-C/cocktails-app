@@ -8,14 +8,30 @@ import CarouselCard from "$src/pages/HomePage/components/Carousel/Card";
 import Search from "$src/pages/HomePage/components/Search";
 
 import "./style.css";
-import { DrinksSearchResultsContext } from "./contexts/DrinksCollectionContext";
 import { Cocktail } from "$src/types";
+import { useDebounceValue } from "usehooks-ts";
+import { searchCocktailsByName } from "$src/api";
+import { useQuery } from "@tanstack/react-query";
+import { convertCocktailDtoToCocktail } from "$src/utils";
 
 const HomePage: FC = () => {
   const loaderData = useLoaderData({ from: "/" });
-  const [results, setResults] = useState<Cocktail[]>([]);
 
-  const collectionToRender = results.length ? results : loaderData || [];
+  const [text, setText] = useState("");
+  const [debouncedText] = useDebounceValue(text, 500);
+
+  const { data } = useQuery({
+    queryKey: ["cocktails", debouncedText],
+    queryFn: () => searchCocktailsByName(debouncedText),
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  const collectionToRender = data?.drinks.length
+    ? data.drinks.map(convertCocktailDtoToCocktail)
+    : loaderData || [];
 
   const cards: CarouselProps["collection"] = collectionToRender.map(
     (drink) => ({
@@ -33,9 +49,16 @@ const HomePage: FC = () => {
 
   return (
     // <DrinksSearchResultsContext.Provider value={{ results, setResults }}>
+
     <div className="home-container">
       <h1>Browse Drinks</h1>
-      <Search />
+      {/* <Search /> */}
+      <label htmlFor="serach-input">Search for coktails:</label>
+      <input
+        id="serach-input"
+        onChange={handleInputChange}
+        placeholder="Any cocktail name..."
+      />
       <SwiperCardCarousel collection={cards} />
     </div>
     // </DrinksSearchResultsContext.Provider>
