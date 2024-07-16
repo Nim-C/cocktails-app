@@ -74,7 +74,7 @@ export const searchCocktailsByName = async (
   localStorageDrinks.forEach((drink) => {
     uniqueResults[drink.idDrink] = drink;
   });
-  apiResults.forEach((drink) => {
+  (apiResults ?? []).forEach((drink) => {
     uniqueResults[drink.idDrink] = drink;
   });
 
