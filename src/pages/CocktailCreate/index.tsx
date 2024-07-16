@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { useRouteContext } from "@tanstack/react-router";
+import { Box, Button, Heading } from "@radix-ui/themes";
 import { nanoid } from "nanoid";
 
 import { CocktailDto } from "$src/types";
 import FormMessage from "$pages/CocktailCreate/components/form-message";
+import { URL_CREATE } from "$src/constants";
 
 import "./style.css";
-import { Box, Button, Heading } from "@radix-ui/themes";
 
 type SubmissionStatus = "idle" | "success" | "error";
-
 type FormData = {
   strDrink: string;
   strDrinkThumb?: string;
@@ -29,7 +29,7 @@ export function CocktailCreate() {
 
   const {
     cocktails: { saveNewCocktail },
-  } = useRouteContext({ from: "/create" });
+  } = useRouteContext({ from: URL_CREATE });
 
   const {
     register,
@@ -74,8 +74,8 @@ export function CocktailCreate() {
         throw new Error("Submission failed");
       }
 
-      saveNewCocktail(cocktailData);
       setSubmissionStatus("success");
+      saveNewCocktail(cocktailData);
     } catch (error) {
       setSubmissionStatus("error");
     }
@@ -107,7 +107,6 @@ export function CocktailCreate() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Heading as="h1">Create your own cocktail 🍹</Heading>
-
       <Box className="field">
         <label htmlFor="strDrink">Drink Name:</label>
         <input id="strDrink" {...register("strDrink", { required: true })} />

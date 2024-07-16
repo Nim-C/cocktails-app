@@ -15,7 +15,8 @@
     font-size: 2.5rem;
   }
 
-  input {
+  input,
+  textarea {
     font-size: 2.2rem;
   }
 

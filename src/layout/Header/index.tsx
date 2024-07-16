@@ -2,6 +2,8 @@ import { Link, useLocation } from "@tanstack/react-router";
 import React from "react";
 import { clsx } from "clsx";
 
+import { URL_CREATE, URL_HOME } from "$src/constants";
+
 import "./style.css";
 
 type NavLink = {
@@ -10,8 +12,8 @@ type NavLink = {
 };
 
 const NAV_LINKS: NavLink[] = [
-  { path: "/", name: "Home" },
-  { path: "/create", name: "Create" },
+  { path: URL_HOME, name: "Home" },
+  { path: URL_CREATE, name: "Create" },
 ];
 
 const Header: React.FC = () => {

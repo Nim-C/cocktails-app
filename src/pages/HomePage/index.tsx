@@ -11,13 +11,14 @@ import SwiperCardCarousel, {
 } from "$src/pages/HomePage/components/Carousel";
 import CarouselCard from "$src/pages/HomePage/components/Carousel/Card";
 
+import { URL_HOME } from "$src/constants";
 import { searchCocktailsByName } from "$src/api";
 import { convertCocktailDtoToCocktail } from "$src/utils";
 
 import "./style.css";
 
 const HomePage: FC = () => {
-  const loaderData = useLoaderData({ from: "/" });
+  const loaderData = useLoaderData({ from: URL_HOME });
 
   const [text, setText] = useState("");
   const [debouncedText] = useDebounceValue(text, 500);

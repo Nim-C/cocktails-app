@@ -1,17 +1,18 @@
 import { FC } from "react";
 import { useLoaderData } from "@tanstack/react-router";
+import { Box } from "@radix-ui/themes";
 
 import { Cocktail } from "$src/types";
 
 import fallbackImage from "/cocktails.jpg";
 
+import { URL_COCKTAIL_BY_ID } from "$src/constants";
 import "./styles.css";
-import { Box } from "@radix-ui/themes";
 
 export const CocktailRecepie: FC = () => {
   const { name, thumbnail, ingredients, instructions }: Cocktail =
     useLoaderData({
-      from: "/cocktail/$id",
+      from: URL_COCKTAIL_BY_ID,
     });
 
   return (
