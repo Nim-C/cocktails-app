@@ -1,0 +1,44 @@
+.recepie-container {
+  display: grid;
+  column-gap: 5rem;
+  grid-template-areas:
+    "title . "
+    "image name"
+    "image ingredients"
+    "image instructions";
+  grid-template-rows: 10rem 6rem 1fr 1fr;
+
+  color: var(--color-text);
+  h1 {
+    font-size: 5rem;
+  }
+  h2 {
+    font-size: 3rem;
+  }
+  font-size: 2rem;
+
+  .title {
+    grid-area: title;
+  }
+
+  .cocktail-image {
+    grid-area: image;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: clamp(10rem, 40vw, 60rem);
+    box-sizing: border-box;
+    border: 4px solid var(--swiper-theme);
+    border-radius: 5rem;
+  }
+
+  .cocktail-name {
+    grid-area: name;
+  }
+
+  .cocktail-ingredients-content {
+    grid-area: ingredients;
+  }
+  .cocktail-instructions-content {
+    grid-area: instructions;
+  }
+}

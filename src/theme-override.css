@@ -1,0 +1,31 @@
+.radix-themes {
+  --color-background: linear-gradient(
+    0deg,
+    rgba(129, 129, 129, 1) 0%,
+    rgba(140, 113, 51, 1) 100%
+  );
+  --color-text: #f5e6d3;
+
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+#root {
+  background: var(--color-background);
+  color: var(--color-text);
+  padding: 0 clamp(1rem, 5vw, 5rem);
+}
+
+input,
+select,
+textarea {
+  color: #333;
+  background-color: #f5e6d3;
+  border: none;
+  border-radius: 0.4rem;
+}
+
+::placeholder {
+  color: #666;
+}

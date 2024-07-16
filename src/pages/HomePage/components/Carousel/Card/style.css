@@ -1,0 +1,26 @@
+.carousel-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--swiper-theme);
+
+  &:hover {
+    color: var(--swiper-theme);
+
+    text-decoration: underline;
+  }
+
+  .carousel-card__image {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: 4px solid var(--swiper-theme);
+    box-sizing: border-box;
+    border-radius: 25%;
+  }
+
+  .carousel-card__title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+}

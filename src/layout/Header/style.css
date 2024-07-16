@@ -1,0 +1,38 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 4rem;
+  padding: 0 16px;
+
+  overflow: hidden;
+
+  background-color: #e1d9c1;
+  border-bottom-right-radius: 20px;
+  border: 4px dotted #8b7138;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .nav-link {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #816d56;
+    text-decoration: none;
+    padding: 1.2rem;
+    border-radius: 4rem;
+
+    &:hover {
+      color: #e5625f;
+    }
+
+    &.selected-route {
+      background-color: #e5625f;
+      color: #e1d9c1;
+    }
+  }
+}
