@@ -1,5 +1,3 @@
-// import viteLogo from "/vite.svg";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Outlet } from "@tanstack/react-router";
 
