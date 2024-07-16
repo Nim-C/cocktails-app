@@ -6,21 +6,25 @@
 
   &:hover {
     color: var(--swiper-theme);
-
     text-decoration: underline;
   }
 
   .carousel-card__image {
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border: 4px solid var(--swiper-theme);
-    box-sizing: border-box;
-    border-radius: 25%;
+    width: 100%;
+    height: var(--carousel-card-image-dimension);
+
+    & img {
+      display: block;
+      object-fit: cover;
+      border: 4px solid var(--swiper-theme);
+      box-sizing: border-box;
+    }
   }
 
   .carousel-card__title {
-    font-size: 2rem;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
     font-weight: bold;
-    margin-top: 1rem;
+    margin: 1rem auto 0;
+    text-align: center;
   }
 }

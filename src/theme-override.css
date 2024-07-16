@@ -5,6 +5,7 @@
     rgba(140, 113, 51, 1) 100%
   );
   --color-text: #f5e6d3;
+  --color-red: #e5625f;
 
   flex: 1;
   display: flex;
@@ -14,7 +15,7 @@
 #root {
   background: var(--color-background);
   color: var(--color-text);
-  padding: 0 clamp(1rem, 5vw, 5rem);
+  width: 100dvw;
 }
 
 input,

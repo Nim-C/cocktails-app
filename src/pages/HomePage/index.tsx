@@ -1,6 +1,9 @@
 import { FC, useState } from "react";
 import { useLoaderData } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import * as Label from "@radix-ui/react-label";
+import { Box, Heading } from "@radix-ui/themes";
+
 import { useDebounceValue } from "usehooks-ts";
 
 import SwiperCardCarousel, {
@@ -28,9 +31,13 @@ const HomePage: FC = () => {
     setText(e.target.value);
   };
 
-  const collectionToRender = data?.drinks.length
+  const searchResultsFound = !!data?.drinks.length;
+
+  const collectionToRender = searchResultsFound
     ? data.drinks.map(convertCocktailDtoToCocktail)
-    : loaderData || [];
+    : debouncedText
+      ? []
+      : loaderData;
 
   const cards: CarouselProps["collection"] = collectionToRender.map(
     (drink) => ({
@@ -48,14 +55,18 @@ const HomePage: FC = () => {
 
   return (
     <div className="home-container">
-      <h1>Browse Drinks</h1>
-      <label htmlFor="serach-input">Search for coktails:</label>
+      <Heading as="h1">Browse Drinks</Heading>
+      <br />
+      <Label.Root htmlFor="search-input">Search for cocktails</Label.Root>
       <input
-        id="serach-input"
+        id="search-input"
         onChange={handleInputChange}
         placeholder="Any cocktail name..."
       />
-      <SwiperCardCarousel collection={cards} />
+      {cards.length ? null : (
+        <Box className="search-failed">Sorry, no results found</Box>
+      )}
+      {!cards.length ? null : <SwiperCardCarousel collection={cards} />}
     </div>
   );
 };

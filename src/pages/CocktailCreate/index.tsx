@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
-import { nanoid } from "nanoid";
-import { CocktailDto } from "$src/types";
 import { useRouteContext } from "@tanstack/react-router";
+import { nanoid } from "nanoid";
+
+import { CocktailDto } from "$src/types";
+import FormMessage from "$pages/CocktailCreate/components/form-message";
+
+import "./style.css";
+import { Box, Button, Heading } from "@radix-ui/themes";
+
+type SubmissionStatus = "idle" | "success" | "error";
 
 type FormData = {
   strDrink: string;
@@ -16,6 +24,9 @@ type FormData = {
 };
 
 export function CocktailCreate() {
+  const [submissionStatus, setSubmissionStatus] =
+    useState<SubmissionStatus>("idle");
+
   const {
     cocktails: { saveNewCocktail },
   } = useRouteContext({ from: "/create" });
@@ -57,23 +68,68 @@ export function CocktailCreate() {
       idDrink: nanoid(),
     } as CocktailDto;
 
-    saveNewCocktail(cocktailData);
+    try {
+      // Randomly throw an error to simulate a failed submission
+      if (Math.random() < 0.5) {
+        throw new Error("Submission failed");
+      }
+
+      saveNewCocktail(cocktailData);
+      setSubmissionStatus("success");
+    } catch (error) {
+      setSubmissionStatus("error");
+    }
   };
 
+  if (submissionStatus === "success") {
+    return (
+      <FormMessage variant="submission-status">
+        🥳 Successfully created cocktail! You are welcome to navigate to "Home"
+        page and find it 😇
+      </FormMessage>
+    );
+  }
+
+  if (submissionStatus === "error") {
+    return (
+      <FormMessage variant="submission-status">
+        🫣 Oh no, Cocktail submission didn't pass, let's try again 🙏! <br />
+        <Button color="brown" onClick={() => setSubmissionStatus("idle")}>
+          Try again
+        </Button>
+      </FormMessage>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
+    <form
+      className="create-cocktail-container"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Heading as="h1">Create your own cocktail 🍹</Heading>
+
+      <Box className="field">
         <label htmlFor="strDrink">Drink Name:</label>
         <input id="strDrink" {...register("strDrink", { required: true })} />
-        {errors.strDrink && <span>This field is required</span>}
-      </div>
-
-      <div>
+        {errors.strDrink && (
+          <FormMessage variant="field-validation">
+            ⬆️ Name is required
+          </FormMessage>
+        )}
+      </Box>
+      <Box className="field">
         <label htmlFor="strDrinkThumb">Drink Thumbnail URL:</label>
         <input id="strDrinkThumb" {...register("strDrinkThumb")} />
-      </div>
-
-      <div>
+      </Box>
+      <Box className="field">
+        <label htmlFor="strVideo">Video URL:</label>
+        <input id="strVideo" {...register("strVideo")} />
+      </Box>
+      <Box className="field">
+        <label htmlFor="strGlass">Glass Type:</label>
+        <input id="strGlass" {...register("strGlass")} />
+      </Box>
+      <Box className="field">
         <label htmlFor="strCategory">Category:</label>
         <select
           id="strCategory"
@@ -84,10 +140,13 @@ export function CocktailCreate() {
           <option value="Cocktail">Cocktail</option>
           <option value="Shot">Shot</option>
         </select>
-        {errors.strCategory && <span>This field is required</span>}
-      </div>
-
-      <div>
+        {errors.strCategory && (
+          <FormMessage variant="field-validation">
+            ⬆️ Category is required
+          </FormMessage>
+        )}
+      </Box>
+      <Box className="field">
         <label htmlFor="strAlcoholic">Alcoholic:</label>
         <select
           id="strAlcoholic"
@@ -98,59 +157,65 @@ export function CocktailCreate() {
           <option value="Non alcoholic">Non-alcoholic</option>
           <option value="Optional alcohol">Optional alcohol</option>
         </select>
-        {errors.strAlcoholic && <span>This field is required</span>}
-      </div>
-
+        {errors.strAlcoholic && (
+          <FormMessage variant="field-validation">
+            ⬆️ Alcoholic is required
+          </FormMessage>
+        )}
+      </Box>
       {fields.map((field, index) => (
-        <div key={field.id}>
-          <label htmlFor={`ingredient${index}`}>Ingredient {index + 1}:</label>
+        <Box className="ingredient-field" key={field.id}>
+          <label className="name-label" htmlFor={`ingredient${index}`}>
+            Ingredient {index + 1}:
+          </label>
           <input
+            className="name-input"
             id={`ingredient${index}`}
             {...register(`ingredients.${index}.name` as const)}
           />
-          <label htmlFor={`measure${index}`}>Measure {index + 1}:</label>
+          <br />
+          <label className="measure-label" htmlFor={`measure${index}`}>
+            Measure {index + 1}:
+          </label>
           <input
+            className="measure-input"
             id={`measure${index}`}
             {...register(`ingredients.${index}.measure` as const)}
           />
-          <button type="button" onClick={() => remove(index)}>
-            Remove
-          </button>
-        </div>
+          <Button
+            color="red"
+            className="button-remove-ingredient"
+            type="button"
+            onClick={() => remove(index)}
+            disabled={fields.length === 1}
+          >
+            ⛌
+          </Button>
+        </Box>
       ))}
-
-      <div>
+      <Box className="field">
         <label htmlFor="strInstructions">Instructions:</label>
         <textarea
           id="strInstructions"
           {...register("strInstructions", { required: true })}
         />
-        {errors.strInstructions && <span>This field is required</span>}
-      </div>
-
-      <div>
-        <label htmlFor="strGlass">Glass Type:</label>
-        <input id="strGlass" {...register("strGlass")} />
-      </div>
-
-      <div>
-        <label htmlFor="strTags">Tags:</label>
-        <input id="strTags" {...register("strTags")} />
-      </div>
-
-      <div>
-        <label htmlFor="strVideo">Video URL:</label>
-        <input id="strVideo" {...register("strVideo")} />
-      </div>
-
-      <button
-        type="button"
-        onClick={() => append({ name: "", measure: "" })}
-        disabled={fields.length >= 15}
-      >
-        Add Ingredient
-      </button>
-      <button type="submit">Create Cocktail</button>
+        {errors.strInstructions && (
+          <FormMessage variant="field-validation">
+            ⬆️ Instructions are required
+          </FormMessage>
+        )}
+      </Box>
+      <Box className="form-buttons">
+        <Button
+          color="brown"
+          type="button"
+          onClick={() => append({ name: "", measure: "" })}
+          disabled={fields.length >= 15}
+        >
+          Add Ingredient
+        </Button>
+        <button type="submit">Create Cocktail</button>
+      </Box>
     </form>
   );
 }

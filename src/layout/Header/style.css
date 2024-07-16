@@ -19,20 +19,20 @@ header {
   gap: 16px;
 
   .nav-link {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
     font-weight: 500;
     color: #816d56;
     text-decoration: none;
-    padding: 1.2rem;
+    padding: 0 1.2rem;
     border-radius: 4rem;
 
     &:hover {
-      color: #e5625f;
+      color: var(--color-red);
     }
 
     &.selected-route {
-      background-color: #e5625f;
-      color: #e1d9c1;
+      background-color: var(--color-red);
+      color: var(--color-text);
     }
   }
 }
