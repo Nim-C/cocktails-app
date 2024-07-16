@@ -49,7 +49,6 @@ const HomePage: FC = () => {
   return (
     <div className="home-container">
       <h1>Browse Drinks</h1>
-
       <label htmlFor="serach-input">Search for coktails:</label>
       <input
         id="serach-input"
