@@ -1,18 +1,17 @@
 import { FC, useState } from "react";
 import { useLoaderData } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useDebounceValue } from "usehooks-ts";
 
 import SwiperCardCarousel, {
   CarouselProps,
 } from "$src/pages/HomePage/components/Carousel";
 import CarouselCard from "$src/pages/HomePage/components/Carousel/Card";
-import Search from "$src/pages/HomePage/components/Search";
+
+import { searchCocktailsByName } from "$src/api";
+import { convertCocktailDtoToCocktail } from "$src/utils";
 
 import "./style.css";
-import { Cocktail } from "$src/types";
-import { useDebounceValue } from "usehooks-ts";
-import { searchCocktailsByName } from "$src/api";
-import { useQuery } from "@tanstack/react-query";
-import { convertCocktailDtoToCocktail } from "$src/utils";
 
 const HomePage: FC = () => {
   const loaderData = useLoaderData({ from: "/" });
@@ -48,11 +47,9 @@ const HomePage: FC = () => {
   );
 
   return (
-    // <DrinksSearchResultsContext.Provider value={{ results, setResults }}>
-
     <div className="home-container">
       <h1>Browse Drinks</h1>
-      {/* <Search /> */}
+
       <label htmlFor="serach-input">Search for coktails:</label>
       <input
         id="serach-input"
@@ -61,7 +58,6 @@ const HomePage: FC = () => {
       />
       <SwiperCardCarousel collection={cards} />
     </div>
-    // </DrinksSearchResultsContext.Provider>
   );
 };
 

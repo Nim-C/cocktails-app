@@ -1,4 +1,9 @@
-import { CocktailsFetch, RandomCocktailsFetch, Cocktail } from "$types/index";
+import {
+  CocktailsFetch,
+  RandomCocktailsFetch,
+  Cocktail,
+  CocktailDto,
+} from "$types/index";
 
 import { cocktailDbFetch } from "$api/services/cocktailDb";
 import { convertCocktailDtoToCocktail } from "$utils/index";
@@ -64,5 +69,14 @@ export const searchCocktailsByName = async (
       params: { s: name },
     }
   );
-  return { drinks: [...localStorageDrinks, ...(apiResults ?? [])] };
+
+  const uniqueResults: Record<string, CocktailDto> = {};
+  localStorageDrinks.forEach((drink) => {
+    uniqueResults[drink.idDrink] = drink;
+  });
+  apiResults.forEach((drink) => {
+    uniqueResults[drink.idDrink] = drink;
+  });
+
+  return { drinks: Object.values(uniqueResults) };
 };
